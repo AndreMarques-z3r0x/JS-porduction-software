@@ -1,0 +1,154 @@
+.modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    z-index: 10;
+    background-color: #595959;
+    width: 1000px;
+    max-width: 80%;
+}
+
+.modal.active{
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header{
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+    
+}
+
+.modal-header .title{
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.modal-header .close-button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.modal-body{
+    padding: 10px 15px;
+    color: white;
+    font: 400 18px Lato, sans-serif;
+}
+
+#overlay {
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+}
+
+#overlay.active{
+    opacity: 1;
+    pointer-events: all;
+}
+
+#checkbutton1 {
+    width: 33%;
+    float: left;
+    text-align: center;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+.button{
+    padding: 15px 60px;
+    background-color: #61977e;
+    color:  white;
+    border: none;
+    font-size: 20px;
+}
+
+.button.active{
+    background-color: red;
+}
+
+.title{
+    color: white;
+}
+
+.charts{
+    width: 30%;
+    height: 200px !important;
+    float: left;
+    margin-left: 180px;
+}
+
+.largeside{
+    width: 100%;
+}
+.sidemenubox{
+    width: 20%;
+    float: left;
+    background-color: #333;
+    height: 850px;
+    font-size: 20px;
+
+}
+.sublarge{
+    margin-left: 20px;
+    width: 75%;
+    float: left;
+    background-color: #d9d9d9;
+    display: block;
+}
+
+.dropdown-btn {
+    width: 100%;
+    background-color: #333;
+    border: none;
+    padding: 6px 8px 6px 16px;
+    text-align: left;
+    font-size: 20px;
+    color: white; 
+    border-bottom: 1px solid white;
+    cursor: pointer;
+    outline: none;
+}
+
+.dropdown-container{
+    display: none;
+    padding: 6px 8px 6px 16px;
+    color: white;
+    background-color: #666666;
+}
+
+.dropdown-container:hover, .dropdown-btn:hover, .modal-btn:hover{
+    background-color: #004d00;
+}
+ .modal-btn{
+    width: 100%;
+    padding: 6px 8px 6px 16px;
+    background-color: #61977e;
+    color: white;
+    border: none;
+    border-bottom: 1px solid white;
+    font: 400 22px Lato, sans-serif;
+    cursor: pointer;
+ }
+
+#infoPosto{
+    background-color: white;
+    position: relative;
+    width: 300px;
+    height: 180px;
+}

@@ -1,0 +1,170 @@
+{% extends "layout.html" %}
+   
+{% block headlinks %}
+
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/menu_style.css')}}">
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/modal.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+{{ fontawesome_html() }} 
+{% endblock headlinks %}
+{% block content %}
+<body onload="firstFill();">
+
+    <div class="menu">
+        <a href="/home"><i class="fas fa-home"></i></a>
+        <a href="/medias" class="active">Medias</a>
+        <a href="/R_diario">Registo Diario</a>
+        <a href="/padrao">Padroes diarios</a>
+        <a href="/alvo">Tempo no alvo</a>
+        <a href="/relatorios">Relatorios</a>
+        <a href="/conf">Configuracoes</a>
+    </div>
+
+<div class="largeside">
+        <div class="sidemenubox">
+            <button data-modal-target="#modal" class= "modal-btn">Open Modal <i class="fas fa-chart-bar"></i></button>
+            
+            <button class="dropdown-btn">Mostar +info <i class="fas fa-sort-down" style="float: right; padding-right: 8px;"></i></button>
+                <div class="dropdown-container" >Qaulquer coisa</div>
+            <button class="dropdown-btn">Comparar postos de trabalho <i class="fas fa-sort-down" style="float: right; padding-right: 8px;"></i></button>
+                <div class="dropdown-container" >
+                        {% for p in range (postos) %}
+                            <input type="checkbox" id="check-posto{{p}}" name="check-postos"/> Posto {{ postos +1 }}
+                        {% endfor %}
+                </div>
+                <div style="border-bottom: 5px solid white;margin-top: 3px;"></div>
+
+        </div>
+        <div class="sublarge" >
+            {% for p in range(postos) %}
+            <div style="float: left;width: 40%; background-color: white;margin-left: 100px;margin-top: 10px;margin-bottom: 10px;">
+                <p>Posto 1</p>
+            <div id="infoPosto">
+                <canvas class="infoPostoGraph" style="display: inline;"></canvas>
+            </div>
+            </div>
+            {% endfor %}
+            <script type="text/javascript">
+                    var ctx = document.getElementsByClassName('infoPostoGraph');
+                    //console.log(ctx.length)
+                    var postod_chart = new Array(ctx.length)
+                    //console.log(postod_chart.length)
+                    for (var i = 0; i < ctx.length; i++) {
+                    postod_chart[i] = new Chart (ctx[i], {
+                        type: 'bar',
+                        data: {
+                            labels: ['turno 1', 'turno 2', 'turno 3'],
+                            datasets: [{
+                                data: [10,5,9],
+                                label: 'Pecas',
+                                backgroundColor: 'rgba(0, 128, 0, .8)',
+                                borderWidth: 1
+                                }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            legend: {
+                                labels:{
+                                    fontColor: '#fff'
+                                }
+                            },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });//end postod_chatr
+                }
+            function firstFill(){
+                for (var i = 0; i < postod_chart.length; i++) {
+                    my_graph_data(i+1,19)
+                }
+            }
+
+            function my_graph_data(what , gdays){
+                $.ajax({
+                    url: "/data",
+                    data: {
+                        'dowhat' : what,
+                        'days' : gdays,
+                    },
+                    success: function(result){
+                        console.log(result.results[1])
+                        //for (var i = 0; i < postod_chart.length; i++) {
+                        postod_chart[what-1].data.datasets[0].data =  result.results;
+                        postod_chart[what-1].update();  
+                        //}
+                    }
+                })
+            }
+    
+            </script>    
+        </div>
+</div>
+
+        <div class="modal" id="modal">
+        <div class="modal-header">
+            <div class="title">Definir o periodo pertendido</div>
+            <button data-close-button class="close-button"><i class="fas fa-window-close"></i></button>
+        </div>
+    
+        
+        <div class="modal-body">
+        <form>
+            Predefenido:
+            <div>
+                <div id="checkbutton1">
+                    <button class="button" type="button" id="btn7d">Ultimos 7 dias</button>
+                </div>
+                <div id="checkbutton1">
+                    <button class="button" type="button" id="btn15d">Ultimos 15 dias</button>
+                </div>
+                <div id="checkbutton1">
+                    <button class="button" type="button" id="btn1m">Ultimo mes</button>
+                </div>
+            </div>
+            <div>
+                <input type="checkbox" id="check-dates" name="check-dates"/>Personalizar datas;
+                <div>
+                <div style="width: 50%;float: left;margin-top: 20px;">
+                    <div style="text-align: center;">
+                    De: <input type="date" name="" />
+                    </div>
+                </div> 
+                <div style="width: 50%;float: left;margin-top: 20px;">
+                    <div style="text-align: center;">
+                    At&eacute;: <input type="date" name=""/>
+                    </div>
+                </div>
+                </div>
+
+                <div style="padding-left: 22px;">Agrupar por:</div>
+                <div id="checkbutton1">
+                    <input type="radio" name="agrupar" id="dia"/>dia    
+                </div>
+                <div id="checkbutton1">
+                    <input type="radio" name="agrupar" id="mes"/>m&ecirc;s     
+                </div>
+                <div id="checkbutton1">
+                    <input type="radio" name="agrupar" id="ano"/>ano    
+                </div>
+            </div>
+            <div>
+                <div style="width: 100%;text-align: right;">
+                    <button type="submit" class="button" style="margin-right: 60px;" onclick="myfunction()">Pesquisar</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    <div id="overlay"></div>
+
+<script type="text/javascript" src="static/js/new_script.js"></script>
+
+{% endblock content %}

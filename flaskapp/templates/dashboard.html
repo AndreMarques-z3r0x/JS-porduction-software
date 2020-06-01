@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block headlinks %}
+	<link rel="stylesheet"  href="{{ url_for('static', filename='css/dash.css')}}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+
+	{{ fontawesome_html() }} 
+
+{% endblock headlinks %}
+
+{% block content %}
+
+<div class="menu">
+        <a href="/home"><i class="fas fa-home"></i></a>
+        <a href="/dashboard" class="active">Medias</a>
+        <a href="/livemedias">Live</a>
+        <a href="/relatorios">Relatorios</a>
+        <a href="/conf">Configuracoes</a>
+</div>
+
+
+<div id="container">
+  <div id="draggable" class="itemlarge">
+  	<div class="handler">Total Peças Produzidas por Posto e por Semana
+  		<select class="myselect" onchange="selectinfo(this, event)" style="float: right;margin-right: 5px;">
+  			<option value="s">semana</option>
+  			<option value="m">mês</option>
+  		</select>
+  	</div>
+  	<div style="width: 70%;height: 20px;margin-top: 5px;">
+  		<input type="range" min="1" max="10" value="1" class="slider" id="myRange">
+  	</div>
+  	<div class="bchart">
+  		<canvas class="bigchart" style="display: inline;"></canvas>
+  	</div>
+  </div>
+  <div class="itemsemi">
+  	<div class="handler">
+  		<select class="myselect" onchange="selectData(this, event)">
+  			<option value=7>7 dias</option>
+  			<option value=15>15 dias</option>
+  			<option value=28>1 mês </option>
+  		</select>
+  	</div>
+  	<div>
+  		<table class="mytable" id="mytable" align="center" cellspacing="15px" >	
+  		</table>
+  	</div>
+  </div>
+</div>
+
+
+<script type="text/javascript" src="static/js/dash.js"></script>
+{% endblock content %}

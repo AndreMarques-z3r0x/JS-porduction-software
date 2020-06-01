@@ -1,0 +1,175 @@
+{% extends "layout.html" %}
+   
+{% block headlinks %}
+
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/menu_style.css')}}">
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/modal.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 
+{{ fontawesome_html() }} 
+{% endblock headlinks %}
+{% block content %}
+<body>
+
+    <div class="menu">
+        <a href="/home"><i class="fas fa-home"></i></a>
+        <a href="/medias" class="active">Medias</a>
+        <a href="/relatorios">Relatorios</a>
+        <a href="/conf">Configuracoes</a>
+    </div>
+
+<div class="largeside">
+        <div class="sidemenubox">
+            <button data-modal-target="#modal" class= "modal-btn">Open Modal <i class="fas fa-chart-bar"></i></button>
+            
+            <button class="dropdown-btn">Mostar +info <i class="fas fa-sort-down" style="float: right; padding-right: 8px;"></i></button>
+                <div class="dropdown-container" >Qaulquer coisa</div>
+            <button class="dropdown-btn">Comparar postos de trabalho <i class="fas fa-sort-down" style="float: right; padding-right: 8px;"></i></button>
+                <div class="dropdown-container" >
+                        {% for posto in range (1,7) %}
+                            <input type="checkbox" id="check-posto{{posto}}" name="check-postos"/> Posto {{ posto }}
+                        {% endfor %}
+                </div>
+                <div style="border-bottom: 5px solid white;margin-top: 3px;"></div>
+            <button class="dropdown-btn">Padroes diario </button>
+            <button class="dropdown-btn">Tempo no alvo </button>
+
+
+        </div>
+        <div class="sublarge" >
+            <div style="text-align: center;width: 80%; margin-left: 120px;">
+            <canvas id="postos_geral" style="display: inline;"></canvas>
+            </div>     
+            {% for posto in range(1,7) %}
+            <div class="charts">
+            <canvas id="postos_chart{{posto}}" style="display: inline;"></canvas>
+            </div>
+                <script>
+                                var labels_tag = ['turno 1', 'turno2', 'turno 3'];
+                                var data_tag = [{% for turno in range(1,4) %}
+                                                    {{ pecas[posto][turno] }},
+                                                {% endfor %}];
+
+                                var ctx = document.getElementById("postos_chart{{posto}}");
+
+                                var postod_chart = new Chart (ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: labels_tag,
+                                        datasets: [{
+                                            label: 'Posto {{posto}}',
+                                            data: data_tag,
+                                            backgroundColor: ['rgba(0, 128, 0, .8)',
+                                                               'rgba(179, 179, 0, .8)',
+                                                               'rgba(204, 122, 0, .8)'],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true
+                                                }
+                                            }]
+                                        }
+                                    }
+                                });
+                </script>
+            {% endfor %}
+    </div>
+</div>
+
+        <div class="modal" id="modal">
+        <div class="modal-header">
+            <div class="title">Definir o periodo pertendido</div>
+            <button data-close-button class="close-button"><i class="fas fa-window-close"></i></button>
+        </div>
+    
+        
+        <div class="modal-body">
+        <form>
+            Predefenido:
+            <div>
+                <div id="checkbutton1">
+                    <button class="button" type="button" id="btn7d">Ultimos 7 dias</button>
+                </div>
+                <div id="checkbutton1">
+                    <button class="button" type="button" id="btn15d">Ultimos 15 dias</button>
+                </div>
+                <div id="checkbutton1">
+                    <button class="button" type="button" id="btn1m">Ultimo mes</button>
+                </div>
+            </div>
+            <div>
+                <input type="checkbox" id="check-dates" name="check-dates"/>Personalizar datas;
+                <div>
+                <div style="width: 50%;float: left;margin-top: 20px;">
+                    <div style="text-align: center;">
+                    De: <input type="date" name="" />
+                    </div>
+                </div> 
+                <div style="width: 50%;float: left;margin-top: 20px;">
+                    <div style="text-align: center;">
+                    At&eacute;: <input type="date" name=""/>
+                    </div>
+                </div>
+                </div>
+
+                <div style="padding-left: 22px;">Agrupar por:</div>
+                <div id="checkbutton1">
+                    <input type="radio" name="agrupar" id="dia"/>dia    
+                </div>
+                <div id="checkbutton1">
+                    <input type="radio" name="agrupar" id="mes"/>m&ecirc;s     
+                </div>
+                <div id="checkbutton1">
+                    <input type="radio" name="agrupar" id="ano"/>ano    
+                </div>
+            </div>
+            <div>
+                <div style="width: 100%;text-align: right;">
+                    <button type="submit" class="button" style="margin-right: 60px;" onclick="myfunction()">Pesquisar</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    <div id="overlay"></div>
+
+
+    <script>
+                    var labels_p = ['Posto 1', 'Posto 2', 'Posto 3', 'Posto 4', 'Posto 5', 'Posto 6'];
+                    var data_postos = [150,120,126,131,125,121];
+                    var mygraph = document.getElementById("postos_geral");
+                var geral_chart = new Chart (mygraph, {
+                    type: 'bar',
+                    data: {
+                        labels: labels_p,
+                        datasets: [{
+                            label: 'Pecas',
+                            data: data_postos,
+                            backgroundColor: 'rgba(80, 124, 103, .8)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    } 
+                });
+    </script>
+
+    <script type="text/javascript" src="static/js/script.js"></script>
+
+{% endblock content %}

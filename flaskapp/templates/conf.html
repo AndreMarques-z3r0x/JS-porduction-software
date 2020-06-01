@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block headlinks %}
+	<link rel="stylesheet"  href="{{ url_for('static', filename='css/menu_style.css')}}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="static/js/conf.js"></script>
+	{{ fontawesome_html() }} 
+{% endblock headlinks %}
+
+{% block content %}
+    <div class="menu">
+        <a href="/home"><i class="fas fa-home"></i></a>
+        <a href="/dashboard">Medias</a>
+        <a href="/relatorios">Relatorios</a>
+        <a href="/conf" class="active">Configuracoes</a>
+    </div>
+
+<div id="confTable">	
+</div>
+
+<button type="button" onclick="load_it();"></button>
+
+
+
+{% endblock content %}

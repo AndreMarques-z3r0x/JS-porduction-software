@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block headlinks %}
+	<link rel="stylesheet"  href="{{ url_for('static', filename='css/daydata.css')}}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+	<script type="text/javascript" src="static/js/daydata.js"></script>
+
+{{ fontawesome_html() }} 
+
+{% endblock headlinks %}
+
+{% block content %}
+<div class="menu">
+        <a href="/home"><i class="fas fa-home"></i></a>
+        <a href="/dashboard">Medias</a>
+        <a href="/livemedias" class="active">Live</a>
+        <a href="/relatorios">Relatorios</a>
+        <a href="/conf">Configuracoes</a>
+</div>
+
+<div class="container" id="container">
+</div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	{% if title %}
+		<title>Flask Blog - {{ title }}</title>
+	{% else %}
+		<title>INDMEI </title>
+	{% endif %}
+
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="-1">
+
+	{% block headlinks %} {% endblock %}
+
+</head>
+<body>
+	{% block content %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,63 @@
+body{
+    margin: 0 auto;
+    background-position: no-repeat;
+    background-size: 100%;
+}
+
+.container{
+    margin: 0 auto;
+    width: 500px;
+    height: 400px;
+    text-align: center;
+    background-color: rgba(252, 252, 252, .6);
+    border-radius: 20px;
+    margin-top: 200px;
+}
+
+.container img{
+    width: 120px;
+    height: 120px;
+    margin-top: -70px;
+    margin-bottom: 50px;
+}
+input{
+    height: 45px;
+    width: 300px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding-left: 30px;
+}
+
+.inputWithIcon input[type=text], input[type=password]{
+ padding-left: 40px;   
+}
+
+.inputWithIcon{
+    position: relative;
+}
+
+.inputWithIcon i{
+    position: absolute;
+    left:  78px;
+    padding: 9px 8px;
+    color: #aaa;
+}
+
+.inputWithIcon input[type=text]:focus +i ,input[type=password]:focus + i{
+    color: dodgerblue;
+}
+
+.login-btn{
+    text-align: right;
+    padding-right: 80px;
+    padding-top: 25px;
+}
+
+.btn-login{
+    width: 150px;
+    padding: 15px 25px;
+    color: #fff;
+    background-color: #2ECC71;
+    border-radius: 8px;
+    border: none;
+}

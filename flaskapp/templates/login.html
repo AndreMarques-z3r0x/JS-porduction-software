@@ -1,0 +1,34 @@
+    {% extends "layout_menu.html" %}
+    
+    {% block headlinks %}
+    
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/styles.css')}}">
+    
+    {{ fontawesome_html() }} 
+    
+    {% endblock headlinks %}
+    {% block content %}
+
+    <div class="container">
+        <img src="{{ url_for('static', filename='img/user.png')}}">
+        <form action="/login" method="POST">
+            <div class="inputWithIcon">
+                <input type="text" name="username" placeholder="username" value="{{request.form.username }}" >
+                <i class="fas fa-user fa-2x"></i>
+            </div>
+            <div class="inputWithIcon">
+                <input type="password" name="password" placeholder="password" value="{{request.form.username }}">
+                <i class="fas fa-lock fa-2x"></i>
+            </div>
+            <div class="login-btn">
+                <input type="submit" name="submit" value="LOGIN" class="btn-login">
+            </div>
+        </form>
+
+        {% if error %}
+            <p><strong>Error: </strong> {{error}}
+        {% endif %}
+
+    </div>
+    </div>
+    {% endblock content %}

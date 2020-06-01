@@ -1,0 +1,155 @@
+body{
+    background-color: black;
+}
+.menu{
+    background-color: #333;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.menu a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font: 400 18px Lato, sans-serif;
+}
+
+.menu a:hover{
+    background-color: #61977e;
+    color: white;
+}
+
+.menu a.active{
+    background-color: #61977e;
+    color: white;
+}
+
+#container{
+    width: 100%;
+    background-color: #333333;
+    height: 90vh;
+}
+.itemlarge{
+    width: 1410px;
+    height: 300px;
+    background-color: #595959;
+    float: left;
+    margin: 5px 5px 5px 5px;
+}
+
+.itemsemi{
+    width: 395px;
+    height: 820px;
+    background-color: #595959;
+    float: right;
+    margin: 5px 5px 5px 5px;
+}
+
+.itemsmall{
+    width: 463px;
+    height: 250px;
+    background-color: #595959;
+    float: left;
+    margin: 5px 5px 5px 5px;
+}
+
+.handler{
+    text-align: center;
+    height: 20px;
+    background-color: #61977e;
+    cursor: move;
+    color: black;
+}
+
+.resizer{
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    z-index: 2;
+    background: black;
+}
+
+.resizer.se{
+    bottom: -1px;
+    right: -1px;
+    cursor: nwse-resize;
+}
+
+.pcharts{
+    margin-top: 10px;
+    color: white;
+    height: 210px;
+    padding: 10px;
+}
+.bchart{
+    margin-top: 5px;
+    color: white;
+    height: 250px;
+    padding: 10px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  border-radius: 10px;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+.mytable {
+    margin-top: 10px;
+    width: 75%;
+    align-self: center;
+    text-align: center;
+    color: white;
+    font: 400 18px Lato, sans-serif;
+}
+
+#mytable td {
+  border: 1px solid white;
+  background-color: #333333;
+}
+
+.myselect{
+  width: 55px;
+  height: 16px;
+  padding-left: 5px;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  -webkit-appearance: none;
+  background-color: #507c67;
+  color: white;
+  float: left;
+  margin-top: 2px;
+  margin-left: 5px;
+}
+.myselect:hover{
+  cursor: pointer;
+}

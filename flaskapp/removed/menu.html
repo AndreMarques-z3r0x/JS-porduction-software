@@ -1,0 +1,206 @@
+{% extends "layout.html" %}
+    {% block headlinks %}
+    
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/menu_style.css')}}">
+    
+    {{ fontawesome_html() }} 
+    
+    {% endblock headlinks %}
+    {% block content %}
+
+    <div class="menu">
+        <a href="/home" class="active"><i class="fas fa-home"></i></a>
+        <a href="/medias">Medias</a>
+        <a href="/relatorios">Relatorios</a>
+        <a href="/conf">Configuracoes</a>
+    </div>
+    <div id="large">
+            <div id="box1">
+                <div id="posto">
+                <table align="center">
+                    <tr>
+                        <th colspan="2">Posto 1</th>
+                    </tr>
+                    <tr>
+                        <td id="tit">Pe&ccedil;as</td>
+                        <td id="tit">Tempo</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[0] }}</td>
+                        <td>{{ mydata[1] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[2] }}</td>
+                        <td>{{ mydata[3] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[4] }}</td>
+                        <td>{{ mydata[5] }}</td>
+                    </tr>
+                    <tr>
+                        <td id="tit2">Total: {{ mydata[0]+mydata[2]+mydata[4] }}</td>
+                        <td id="tit2">Total: {{ mydata[1]+mydata[3]+mydata[5] }}</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            </div>
+
+            <div id="box2">
+                <div id="posto">
+                <table align="center">
+                    <tr>
+                        <th colspan="2">Posto 2</th>
+                    </tr>
+                    <tr>
+                        <td id="tit">Pe&ccedil;as</td>
+                        <td id="tit">Tempo</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[6] }}</td>
+                        <td>{{ mydata[7] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[8] }}</td>
+                        <td>{{ mydata[9] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[10] }}</td>
+                        <td>{{ mydata[11] }}</td>
+                    </tr>
+                    <tr>
+                        <td id="tit2">Total: {{ mydata[6]+mydata[8]+mydata[10] }}</td>
+                        <td id="tit2">Total: {{ mydata[7]+mydata[9]+mydata[11] }}</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            </div>
+
+            <div id="box3">
+                <div id="posto">
+                <table align="center">
+                    <tr>
+                        <th colspan="2">Posto 3</th>
+                    </tr>
+                    <tr>
+                        <td id="tit">Pe&ccedil;as</td>
+                        <td id="tit">Tempo</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[12] }}</td>
+                        <td>{{ mydata[13] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[14] }}</td>
+                        <td>{{ mydata[15] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[16] }}</td>
+                        <td>{{ mydata[17] }}</td>
+                    </tr>
+                    <tr>
+                        <td id="tit2">Total: {{ mydata[12]+mydata[14]+mydata[16] }}</td>
+                        <td id="tit2">Total: {{ mydata[13]+mydata[15]+mydata[17] }}</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            </div>
+
+            <div id="box1">
+                <div id="posto">
+                <table align="center">
+                    <tr>
+                        <th colspan="2">Posto 4</th>
+                    </tr>
+                    <tr>
+                        <td id="tit">Pe&ccedil;as</td>
+                        <td id="tit">Tempo</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[18] }}</td>
+                        <td>{{ mydata[19] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[20] }}</td>
+                        <td>{{ mydata[21] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[22] }}</td>
+                        <td>{{ mydata[23] }}</td>
+                    </tr>
+                    <tr>
+                        <td id="tit2">Total: {{ mydata[18]+mydata[20]+mydata[22] }}</td>
+                        <td id="tit2">Total: {{ mydata[19]+mydata[21]+mydata[23] }}</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            </div>
+
+            <div id="box2">
+                <div id="posto">
+                <table align="center">
+                    <tr>
+                        <th colspan="2">Posto 5</th>
+                    </tr>
+                    <tr>
+                        <td id="tit">Pe&ccedil;as</td>
+                        <td id="tit">Tempo</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[24] }}</td>
+                        <td>{{ mydata[25] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[26] }}</td>
+                        <td>{{ mydata[27] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[28] }}</td>
+                        <td>{{ mydata[29] }}</td>
+                    </tr>
+                    <tr>
+                        <td id="tit2">Total: {{ mydata[24]+mydata[26]+mydata[28] }}</td>
+                        <td id="tit2">Total: {{ mydata[25]+mydata[27]+mydata[29] }}</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            </div>
+
+            <div id="box3">
+                <div id="posto">
+                <table align="center">
+                    <tr>
+                        <th colspan="2">Posto 6</th>
+                    </tr>
+                    <tr>
+                        <td id="tit">Pe&ccedil;as</td>
+                        <td id="tit">Tempo</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[30] }}</td>
+                        <td>{{ mydata[31] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[32] }}</td>
+                        <td>{{ mydata[33] }}</td>
+                    </tr>
+                    <tr id="dados">
+                        <td>{{ mydata[34] }}</td>
+                        <td>{{ mydata[35] }}</td>
+                    </tr>
+                    <tr>
+                        <td id="tit2">Total: {{ mydata[30]+mydata[32]+mydata[34] }}</td>
+                        <td id="tit2">Total: {{ mydata[31]+mydata[33]+mydata[35] }}</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            </div>
+        
+        </div>
+
+    {% endblock content %}
