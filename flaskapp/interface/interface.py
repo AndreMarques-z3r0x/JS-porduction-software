@@ -22,21 +22,31 @@ def infogeral():
 		return 'error'
 	return info
 
-def get_current_turno():
-	now = datetime.now().strftime("%H:%M:%S")
+def get_c_turno(turnos):
+	now = str(datetime.now().strftime("%H:%M:%S"))
+	time= now.split(':')
+	h=int(time[0])
 	for turno in turnos:
-		if (now>= turno['inicio'] and now <= turno['fim']):
-			current_turno = turno['turno']
-	return current_turno
+		h_inicio = int(str(turno['inicio']).split(':')[0])
+		h_fim = int(str(turno['fim']).split(':')[0])
+		
+		if h_fim>h_inicio:
+			if h>=h_inicio and h<h_fim:
+				return turno, h_inicio, h_fim
+		else:
+			h_pointer = turno['inicio']
+			while True:
+				if (int(h_pointer.seconds/3600)==h):
+					return turno, h_inicio, h_fim
+				elif h_pointer!=turno['fim']:
+					h_pointer+=timedelta(hours=1)
+				else:
+					break
+	return 'error'
 
-
-def get_today_data(posto):
-	current_turno = get_current_turno()
-	mycursor = mysql.connection.cursor()
-	res = mycursor.execute("Select nr_pecas_periodo, tempo_paragem_total from data%s where id_turno=%s and data='%s'" % (posto, current_turno,today))
-	if res>0:
-		myresult= mycursor.fetchall()
-		#for row in myresult:#############
+def get_today_data(posto, turnos):
+	current_turno, h_inicio, h_fim = get_c_turno(turnos)
+	return current_turno['turno']
 
 
 app = Flask(__name__)
@@ -57,8 +67,10 @@ def home():
 
 @app.route("/getData")
 def getData():
-	get_today_data(posto)
-	return 
+	mycursor = mysql.connection.cursor()
+	turnos = infogeral()
+	pecas = get_today_data(2, turnos)
+	return jsonify({'turno':pecas})
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
