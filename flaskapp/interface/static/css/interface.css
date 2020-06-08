@@ -1,0 +1,44 @@
+.posto{
+	width: 33%;
+	float: left;
+	margin-top: 18px;
+}
+
+.posto table {
+	width: 90%;
+    align-self: center;
+    text-align: center;
+    padding: 10px 20px;
+    border: 10px #61977e;
+    background-color: #61977e;
+    color: white;
+}
+.posto table th{
+    height: 50px;
+    border-collapse: collapse;
+    font: 400 26px Lato, sans-serif;
+}
+
+.posto table tr#dados{
+    color: black;
+    height: 30px;
+    font: 400 20px Lato, sans-serif;
+}
+
+.posto table tr#dados:nth-child(odd){
+    background-color: #e6e6e6;
+}
+.posto table tr#dados:nth-child(even){
+    background-color: #cccccc;
+}
+
+.posto table tr#dados td#horas{
+    border: 0px solid black;
+    border-collapse: collapse;
+    background-color: #61977e;
+    color: white;
+}
+
+.posto table tr.active td{
+    background-color: #92b9a8;
+}

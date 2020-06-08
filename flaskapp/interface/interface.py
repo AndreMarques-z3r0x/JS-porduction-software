@@ -7,6 +7,7 @@ from random import sample
 import re
 from calendar import monthrange
 
+
 today = date.today()
 turnos = 0
 
@@ -44,9 +45,35 @@ def get_c_turno(turnos):
 					break
 	return 'error'
 
-def get_today_data(posto, turnos):
+def get_today_turno(turnos):
 	current_turno, h_inicio, h_fim = get_c_turno(turnos)
-	return current_turno['turno']
+	return current_turno
+
+
+def get_today_data(turno,posto):
+	hora = turno['inicio']
+	t_pecas=[]
+	t_tempo = []
+	horas_vec = []
+	while True:
+		h_sql = str(hora).split(', ')[-1]
+		if h_sql == str(turno['fim']):
+			break;
+		mycursor = mysql.connection.cursor()
+		res=mycursor.execute("Select nr_pecas_periodo,tempo_paragem_total from data%s where id_turno=%s and data='%s' and hora_inicio_periodo='%s'" % (posto, turno['turno'], today, h_sql ))
+		if res>0:
+			myresult = mycursor.fetchall()
+			for row in myresult:
+				pecas = row[0]
+				tempo = row[1]
+		else:
+			pecas=0
+			tempo=0
+		t_pecas.append(int(pecas))
+		t_tempo.append(int(tempo)) 
+		horas_vec.append(str(h_sql))
+		hora += timedelta(hours=1)
+	return t_pecas, t_tempo, horas_vec
 
 
 app = Flask(__name__)
@@ -67,10 +94,12 @@ def home():
 
 @app.route("/getData")
 def getData():
+	posto = request.args.get('posto')
 	mycursor = mysql.connection.cursor()
 	turnos = infogeral()
-	pecas = get_today_data(2, turnos)
-	return jsonify({'turno':pecas})
+	c_turno = get_today_turno(turnos)
+	pecas, tempo, horas = get_today_data(c_turno, posto)
+	return jsonify({'turno':c_turno['turno'], 'pecas':pecas, 'tempo':tempo, 'hora':str(c_turno['inicio']), 'h':horas})
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
