@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block headlinks %}
+	<link rel="stylesheet"  href="{{ url_for('static', filename='css/producao.css')}}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	{{ fontawesome_html() }} 
+
+{% endblock headlinks %}
+
+{% block content %}
+
+<div class="menu">
+        <a href="/home"><i class="fas fa-home"></i></a>
+        <a href="/producao" class="active">Produção</a>
+        <a href="/dashboard">Medias</a>
+        <a href="/livemedias">Live</a>
+        <a href="/relatorios">Relatorios</a>
+        <a href="/conf">Configuracoes</a>
+</div>
+
+
+<div id="weektable" style="color: black;">
+
+</div>
+
+<script type="text/javascript" src="static/js/producao.js"></script>
+
+{% endblock content %}

@@ -72,7 +72,7 @@ function updateData(posto){
 }
 
 setInterval(function(){
-	for (let i=1; i<n_postos; i++){
+	for (let i=1; i<=n_postos; i++){
 		updateData(i)
 	}
 }, 3000);

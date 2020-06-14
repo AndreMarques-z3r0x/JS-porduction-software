@@ -64,20 +64,37 @@ def get_data_day(posto,dia):
 		total_tempo.append(int(tempo))
 	return total_pecas, total_tempo
 
-		
+def prepareDic():
+	n_postos, n_turnos = getconfdata()
+	a_dic={}
+	for x in range (1,n_turnos+1):
+		t_str='pecas%s' % x
+		a_dic[t_str] = []
+		t_str='tempo%s' % x
+		a_dic[t_str] = []
+	return a_dic
 
 
 def get_data_week(firstday,posto):
+	producao_dic = prepareDic()
+	producao_dic['posto'] = posto
 	lastday = firstday + timedelta(days=6.9)
 	mycursor = mysql.connection.cursor()
 	sum_pecas =0
 	pecas_posto = []
 	while firstday <= lastday:
 		pecas, tempo = get_data_day(posto, firstday)
+		turno = 1
 		for x in pecas:
 			sum_pecas += x
+			producao_dic['pecas%s' % turno].append(int(x))
+			turno+=1
+		turno = 1
+		for x in tempo:
+			producao_dic['tempo%s' % turno].append(int(x))
+			turno+=1
 		firstday += timedelta(days=1)
-	return sum_pecas
+	return sum_pecas, producao_dic
 
 ##########################################################functions##############################################################################################
 
@@ -233,7 +250,8 @@ def dataweek():
 	f = firstday.strftime("%d/%m/%Y")
 	pecas = []
 	for i in range(1,7):
-		pecas.append(int(get_data_week(firstday,i)))
+		p, p_d = get_data_week(firstday,i)
+		pecas.append(int(p))
 	return jsonify({'results': pecas, 'inicio': f})
 
 @app.route('/selectdata')
@@ -274,6 +292,18 @@ def hourdata():
 	media = int(t_pecas/cont)
 	return jsonify({'pecas': data, 'tot':t_pecas, 'med':media})
 
+@app.route('/producao')
+def producao():
+	return render_template('producao.html')
+
+@app.route('/backproducao')
+def backproducao():
+	#p, data = get_data_week(first, 2)
+	currentWeek = today.isocalendar()[1]
+	firstday = datetime.strptime(f'2020-W{int(currentWeek)- 1}-1', "%Y-W%W-%w").date()
+	f = firstday.strftime("%d/%m/%Y")
+	p, data = get_data_week(firstday, 2)
+	return jsonify(data)
 
 if __name__== '__main__':
     app.run(debug=True)
