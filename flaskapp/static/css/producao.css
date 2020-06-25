@@ -24,23 +24,33 @@
 }
 
 .tableWeek{
-    width: 75%;
+    width: 99.5%;
     align-self: center;
     text-align: center;
-    padding: 10px 20px;
-    border: 10px #61977e;
+    padding: 5px 5px;
+    border: 15px #61977e;
     background-color: #61977e;
     color: white;
+    margin-bottom: 10px;
 }
 
 .tableWeek th {
-    height: 50px;
+    height: 40px;
     border-collapse: collapse;
-    font: 400 26px Lato, sans-serif;
+    font: 400 20px Lato, sans-serif;
 }
 
 .tableWeek td {
-        height: 40px;
+    height: 40px;
     background-color: #737373;
-    font: 400 22px Lato, sans-serif;
+    font: 400 18px Lato, sans-serif;
+}
+
+.leftSection{
+    width: 50%;
+    float: left;
+}
+.rightSection{
+    width: 50%;
+    float: right;
 }

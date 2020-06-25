@@ -9,12 +9,49 @@
 {% block content %}
     <div class="menu">
         <a href="/home"><i class="fas fa-home"></i></a>
+        <a href="/producao">Produção</a>
         <a href="/dashboard">Medias</a>
+        <a href="/livemedias">Live</a>
         <a href="/relatorios">Relatorios</a>
         <a href="/conf" class="active">Configuracoes</a>
     </div>
 
-<div id="confTable">	
+<div class="container" style="color:white;">
+    <div>
+        <table>
+            <tr>
+                <td> Nº total de postos</td>
+                <td id="n_postos"></td>
+            </tr>
+            <tr>
+                <td> Nº total de turnos</td>
+                <td id="n_turnos"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <table id="infoturno">
+            <tr>
+                <th colspan="3">Informação de Turnos</th>
+            </tr>
+            {% for t in range(1,turnos+1) %}
+            <tr>
+                <td>Turno {{ t }}</td>
+                <td id="inicio{{t}}"></td>
+                <td id="fim{{t}}"></td>
+            </tr>
+            {% endfor %}
+            <tr id="add" style="display: none;">
+                <td>Turno {{ turnos+1 }}</td>
+                <td><input type="text" id="new_inic" size="1" /></td>
+                <td><input type="text" id="new_fim" size="1"/></td>
+            </tr>
+            <tr>
+                <td colspan="3"><button type="button" onclick="addTurno()">Adicionar <i class="fa fa-plus-circle" aria-hidden="true"></i></button></td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <button type="button" onclick="load_it();"></button>

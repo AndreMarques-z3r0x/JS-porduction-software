@@ -1,14 +1,30 @@
 from datetime import date, timedelta, datetime
 import numpy as np
-from flask import Flask, render_template, redirect, url_for, request, jsonify
+from flask import Flask, render_template, redirect, url_for, request, jsonify, make_response
 from flask_fontawesome import FontAwesome
 from flask_mysqldb import MySQL
-from random import sample
+from random import sample, choice
 import re
 from calendar import monthrange
-
+from passlib.hash import sha256_crypt
+import jwt
+import string
+from functools import wraps
 
 today = date.today()
+
+
+def getinfoturno():
+	dic={}
+	p, t = getconfdata()
+	mycursor = mysql.connection.cursor()
+	res = mycursor.execute("select * from def_turno")
+	if res>0:
+		myresult = mycursor.fetchall()
+		for row in myresult:
+			dic['inicio_turno%s' % row[0]] = str(row[1])
+			dic['fim_turno%s' % row[0]] = str(row[2])
+	return dic
 
 def gethourdata(posto):
 	t_pecas = []
@@ -157,6 +173,20 @@ def  getconfdata():
 	return p , t 
 
 ##############################################################FlaskApp#####################################################################################################
+def token_required(f):
+	@wraps(f)
+	def decorated(*args, **kwargs):
+		global token
+		#token = request.args.get('token')
+		if not token:
+			return jsonify({'message': 'Token is missing!'}), 403
+		try:
+			data = jwt.decode(token, app.config['SECRET_KEY'])
+		except:
+			return redirect(url_for('login'))
+			#return jsonify({'message': 'Token is invalid'}), 403
+		return f(*args, **kwargs)
+	return decorated
 
 app = Flask(__name__)
 fa = FontAwesome(app)
@@ -165,19 +195,47 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'andre'
 app.config['MYSQL_PASSWORD'] = 'andre199921'
 app.config['MYSQL_DB'] = 'indmei'
+app.config['SECRET_KEY'] = ''.join(choice(string.ascii_uppercase + string.ascii_lowercase  + string.digits) for _ in range(256))
+token = ''
 
 mysql = MySQL(app) 
 
 @app.route('/')
 @app.route('/login', methods=['GET' , 'POST'])
 def login():
+	app.config['MYSQL_DB'] = 'usersLog'
 	error = None
 	if request.method == 'POST':
-		if  request.form['username'] != 'root' or request.form['password'] != 'andre199921':
-			error = 'Invalid credencials. Please try again.'
+		user = request.form['username']
+		inserted_password =  request.form['password']
+		mycursor = mysql.connection.cursor()
+		res = mycursor.execute ("Select password from users where username='%s' " % user)
+		if res>0:
+			myresult = mycursor.fetchall()
+			for row in myresult:
+				password = row[0]
+			if sha256_crypt.verify(inserted_password, password):
+				app.config['MYSQL_DB'] = 'indmei'
+				global token
+				token = jwt.encode({'user': user, 'exp': datetime.utcnow()+timedelta(minutes=20)},app.config['SECRET_KEY'])
+				#return jsonify({'token': token.decode('UTF-8'), 'secret': app.config['SECRET_KEY']})
+				#mk_url= 'home?token=%s' % token 
+				return redirect(url_for('home'))
+			else:
+				error = 'Wrong PassWord'
 		else:
-			return redirect(url_for('home')) 
+			error = "Invalid Username"
 	return render_template('login.html', error = error)
+
+
+
+
+#		if  request.form['username'] != 'root' or request.form['password'] != 'andre199921':
+#			error = 'Invalid credencials. Please try again.'
+#		else:
+#			return redirect(url_for('home')) 
+#	return render_template('login.html', error = error)
+
 
 @app.route('/home')
 def home():
@@ -222,9 +280,11 @@ def live():
 	pass
 
 @app.route('/conf')
+@token_required
 def conf():
 	try:
-		return render_template('conf.html')
+		p, t = getconfdata()
+		return render_template('conf.html', postos = p, turnos=t)
 	except Exception as e:
 		raise e
 
@@ -236,7 +296,13 @@ def getconf():
 	except Exception as e:
 		raise e
 
+@app.route('/getconfturno')
+def getconfturno():
+	data = getinfoturno()
+	return jsonify(data)
+
 @app.route('/dashboard')
+@token_required
 def dashboard():
 	return render_template('dashboard.html')
 
@@ -276,6 +342,7 @@ def datamonth():
 	return jsonify({'pecas': pec})
 
 @app.route('/livemedias')
+@token_required
 def livemedias():
 	return render_template('daydata.html')
 
@@ -293,16 +360,23 @@ def hourdata():
 	return jsonify({'pecas': data, 'tot':t_pecas, 'med':media})
 
 @app.route('/producao')
+@token_required
 def producao():
 	return render_template('producao.html')
 
 @app.route('/backproducao')
 def backproducao():
 	#p, data = get_data_week(first, 2)
+	posto = int(request.args.get('posto'))
 	currentWeek = today.isocalendar()[1]
 	firstday = datetime.strptime(f'2020-W{int(currentWeek)- 1}-1', "%Y-W%W-%w").date()
 	f = firstday.strftime("%d/%m/%Y")
-	p, data = get_data_week(firstday, 2)
+	test = firstday - timedelta(days=25)
+	p, data = get_data_week(firstday, posto)
+	postos, turnos = getconfdata()
+	for x in range (1,turnos+1):
+		data['pecas%s' % x].append(int(sum(data['pecas%s' % x])))
+		data['tempo%s' % x].append(int(sum(data['tempo%s' % x])))
 	return jsonify(data)
 
 if __name__== '__main__':
