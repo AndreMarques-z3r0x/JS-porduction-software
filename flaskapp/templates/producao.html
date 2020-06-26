@@ -13,17 +13,25 @@
         <a href="/producao" class="active">Produção</a>
         <a href="/dashboard">Medias</a>
         <a href="/livemedias">Live</a>
-        <a href="/relatorios">Relatorios</a>
         <a href="/conf">Configuracoes</a>
 </div>
 
+<div id="print">
 
 <div class="leftSection" id="weektableleft" style="color: black;display: block;">
 </div>
 <div class="rightSection" id="weektableright" style="color: black;display: block;">
 	
 </div>
+</div>
 
+<div>
+        <button type="button" onclick="printPageTwo('#print')">Imprimir</button>
+</div>
+
+<div>
+        <button type="button" onclick="printPage('print')"></button>
+</div>
 
 <script type="text/javascript" src="static/js/producao.js"></script>
 

@@ -37,6 +37,7 @@ function updateData (i) {
 				'posto': i,
 			},
 			success: function (result) {
+					console.log(result)
 					var rowDados = ''
 					let t_pecas = 0
 					let t_tempo = 0
@@ -47,6 +48,8 @@ function updateData (i) {
 					}
 					$('#Tbody'+i).empty();
 					$('#Tbody'+i).append(rowDados)
+					$('#date').empty();
+					$('#date').append('Data: '+result.dia)
 			}
 		})
 }

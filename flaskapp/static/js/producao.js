@@ -51,15 +51,20 @@ function maketables(posto) {
 	for (let i=0; i<dias.length; i++){
 		teste += '<td colspan=2>'+dias[i]+'</td>'
 	}
-	let data = `<table class="tableWeek" align="center">
+	let data = `<div id="print`+posto+`"><table class="tableWeek" align="center">
 				<tr>
 				<th colspan=17>Posto `+posto+`</th>
 				</tr>
 				<tr>
 				<td></td>`+teste;
 	data += `</tr>
+			<tr>
+			<td></td><td>Pc's</td><td>T(m)</td><td>Pc's</td><td>T(m)</td>
+			<td>Pc's</td><td>T(m)</td><td>Pc's</td><td>T(m)</td><td>Pc's</td><td>T(m)</td>
+			<td>Pc's</td><td>T(m)</td><td>Pc's</td><td>T(m)</td><td>Pc's</td><td>T(m)</td>
+			</tr>
 			<tbody id="Tbody`+posto+`"></tbody>
-			</table>`;
+			</table></div>`;
 
 	if (posto <= n_postos/2) {
 		$('#weektableleft').append(data)
@@ -67,4 +72,29 @@ function maketables(posto) {
 	else {
 		$('#weektableright').append(data)
 	}	
+}
+
+function printPage (el) {
+	let restorepage = document.body.innerHTML;
+	let printcontent = document.getElementById(el).innerHTML;
+	document.body.innerHTML = printcontent;
+	window.print();
+	document.body.innerHTML = restorepage;
+}
+
+function printPageTwo (elem) {
+	Popup($('<div/>').append($(elem).clone()).html());
+}
+
+function Popup(data){
+	let mywindow = window.open('','my div');
+	mywindow.document.write('<html><head><title>my div</title>');
+	mywindow.document.write("<link rel='stylesheet'  href='static/css/producao.css'>");
+	mywindow.document.write('</head><body>');
+	mywindow.document.write(data);
+	mywindow.document.write('</body></html>');
+
+	mywindow.print();
+
+	return true;
 }

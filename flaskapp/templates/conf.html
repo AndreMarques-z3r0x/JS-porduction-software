@@ -12,7 +12,6 @@
         <a href="/producao">Produção</a>
         <a href="/dashboard">Medias</a>
         <a href="/livemedias">Live</a>
-        <a href="/relatorios">Relatorios</a>
         <a href="/conf" class="active">Configuracoes</a>
     </div>
 
@@ -40,12 +39,14 @@
                 <td>Turno {{ t }}</td>
                 <td id="inicio{{t}}"></td>
                 <td id="fim{{t}}"></td>
+                <td><button type="button"><i class="fas fa-edit"></i></button></td>
             </tr>
             {% endfor %}
             <tr id="add" style="display: none;">
                 <td>Turno {{ turnos+1 }}</td>
                 <td><input type="text" id="new_inic" size="1" /></td>
                 <td><input type="text" id="new_fim" size="1"/></td>
+                <td><button><i class="fas fa-check"></i></button></td>
             </tr>
             <tr>
                 <td colspan="3"><button type="button" onclick="addTurno()">Adicionar <i class="fa fa-plus-circle" aria-hidden="true"></i></button></td>
@@ -54,7 +55,6 @@
     </div>
 </div>
 
-<button type="button" onclick="load_it();"></button>
 
 
 
